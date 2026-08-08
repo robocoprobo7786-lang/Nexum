@@ -14,6 +14,8 @@ import { Button } from "@/components/ui/button";
 import { Users, FileText, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
+export const revalidate = 0;
+
 export default async function FacultyDirectoryPage() {
   const facultyMembers = await getFacultyListWithCounts();
 

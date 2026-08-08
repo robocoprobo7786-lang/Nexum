@@ -1,15 +1,11 @@
-# Entity Relationship Diagram & Data Architecture
-
-## ER Diagram
-
 ```mermaid
 erDiagram
-    DEPARTMENT ||--o{ FACULTY : employs
-    FACULTY ||--o{ PUBLICATION_AUTHOR : authors
-    EXTERNAL_AUTHOR ||--o{ PUBLICATION_AUTHOR : co_authors
-    PUBLICATION ||--o{ PUBLICATION_AUTHOR : includes
-    PUBLICATION ||--o{ EVIDENCE : requires
-    PUBLICATION_TYPE ||--o{ PUBLICATION : categorizes
+    DEPARTMENT ||--|{ FACULTY : employs
+    PUBLICATION_TYPE ||--|{ PUBLICATION : classifies
+    FACULTY ||--o{ PUBLICATION_AUTHOR : "is author via"
+    EXTERNAL_AUTHOR ||--o{ PUBLICATION_AUTHOR : "is author via"
+    PUBLICATION ||--|{ PUBLICATION_AUTHOR : has
+    PUBLICATION ||--o{ EVIDENCE : has
 
     DEPARTMENT {
         int id PK
@@ -18,7 +14,7 @@ erDiagram
 
     FACULTY {
         int id PK
-        int department_id FK
+        int departmentId FK
         string name
         string email
     }
@@ -36,29 +32,29 @@ erDiagram
 
     PUBLICATION {
         int id PK
-        int publication_type_id FK
+        int publicationTypeId FK
         string title
-        string journal_or_conference
+        string journalOrConference
         int year
-        string doi_or_reference
-        timestamp created_at
-        timestamp updated_at
+        string doiOrReference
+        timestamp createdAt
+        timestamp updatedAt
     }
 
     PUBLICATION_AUTHOR {
         int id PK
-        int publication_id FK "CASCADE DELETE"
-        int faculty_id FK "NULLABLE"
-        int external_author_id FK "NULLABLE"
-        int author_order
+        int publicationId FK
+        int facultyId FK "nullable"
+        int externalAuthorId FK "nullable"
+        int authorOrder
     }
 
     EVIDENCE {
         int id PK
-        int publication_id FK "CASCADE DELETE"
-        string evidence_type
+        int publicationId FK
+        string evidenceType
         string reference
-        string verification_status "verified | pending | missing"
+        string verificationStatus
     }
 ```
 

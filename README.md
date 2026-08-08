@@ -17,6 +17,70 @@ For full evaluator documentation, UI explanations, database ER diagrams, user fl
 
 ---
 
+## 🗄️ Entity Relationship (ER) Diagram
+
+```mermaid
+erDiagram
+    DEPARTMENT ||--|{ FACULTY : employs
+    PUBLICATION_TYPE ||--|{ PUBLICATION : classifies
+    FACULTY ||--o{ PUBLICATION_AUTHOR : "is author via"
+    EXTERNAL_AUTHOR ||--o{ PUBLICATION_AUTHOR : "is author via"
+    PUBLICATION ||--|{ PUBLICATION_AUTHOR : has
+    PUBLICATION ||--o{ EVIDENCE : has
+
+    DEPARTMENT {
+        int id PK
+        string name
+    }
+
+    FACULTY {
+        int id PK
+        int departmentId FK
+        string name
+        string email
+    }
+
+    PUBLICATION_TYPE {
+        int id PK
+        string name
+    }
+
+    EXTERNAL_AUTHOR {
+        int id PK
+        string name
+        string affiliation
+    }
+
+    PUBLICATION {
+        int id PK
+        int publicationTypeId FK
+        string title
+        string journalOrConference
+        int year
+        string doiOrReference
+        timestamp createdAt
+        timestamp updatedAt
+    }
+
+    PUBLICATION_AUTHOR {
+        int id PK
+        int publicationId FK
+        int facultyId FK "nullable"
+        int externalAuthorId FK "nullable"
+        int authorOrder
+    }
+
+    EVIDENCE {
+        int id PK
+        int publicationId FK
+        string evidenceType
+        string reference
+        string verificationStatus
+    }
+```
+
+---
+
 ## 📸 UI Screenshots
 
 | Institutional Dashboard | Publications Directory & Filters |
