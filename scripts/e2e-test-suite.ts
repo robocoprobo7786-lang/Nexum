@@ -121,12 +121,12 @@ async function runE2EAcceptanceTest() {
 
     // CHECK 3: Faculty A's Research Profile shows this publication
     const facultyAProfile = await getFacultyProfile(facultyA.id);
-    const inFacultyA = facultyAProfile.publications.some((p) => p.id === pubId);
+    const inFacultyA = !!facultyAProfile?.publications.some((p) => p.id === pubId);
     results["Faculty A's Research Profile shows this publication"] = inFacultyA;
 
     // CHECK 4: Faculty B's Research Profile shows this publication
     const facultyBProfile = await getFacultyProfile(facultyB.id);
-    const inFacultyB = facultyBProfile.publications.some((p) => p.id === pubId);
+    const inFacultyB = !!facultyBProfile?.publications.some((p) => p.id === pubId);
     results["Faculty B's Research Profile shows this publication"] = inFacultyB;
 
     // CHECK 5: External author visually and structurally distinct from internal authors
