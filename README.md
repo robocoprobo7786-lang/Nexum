@@ -4,7 +4,7 @@ Nexum is an institutional research activity and accreditation readiness tracking
 
 ---
 
-## 📚 Evaluation Documentation
+## 📚 Evaluation Documentation.
 
 For full evaluator documentation, UI explanations, database ER diagrams, user flows, and screenshots, visit the **[`docs/`](./docs/README.md)** directory:
 
