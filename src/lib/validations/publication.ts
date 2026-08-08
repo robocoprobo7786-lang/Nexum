@@ -25,6 +25,11 @@ export const step1PublicationSchema = z.object({
     .trim()
     .max(500, "DOI/Reference cannot exceed 500 characters")
     .optional(),
+  quartile: z
+    .enum(["Q1", "Q2", "Q3", "Q4"])
+    .or(z.literal(""))
+    .optional()
+    .nullable(),
 });
 
 export type Step1PublicationInput = z.infer<typeof step1PublicationSchema>;

@@ -6,6 +6,7 @@ import {
   department,
   publicationType,
   evidence,
+  type Quartile,
 } from "@/db/schema";
 import {
   and,
@@ -68,6 +69,7 @@ export interface PublicationFilterParams {
   sortOrder?: "asc" | "desc";
   page?: number;
   pageSize?: number;
+  quartile?: Quartile | "all";
 }
 
 export async function getPublicationFilterOptions() {
@@ -113,7 +115,12 @@ export async function getPublicationsFiltered(params: PublicationFilterParams): 
   try {
     const conditions = [];
 
-    const { search, typeId, departmentId, year, evidenceStatus, sortBy, sortOrder, page = 1, pageSize = 10 } = params;
+    const { search, typeId, departmentId, year, evidenceStatus, sortBy, sortOrder, page = 1, pageSize = 10, quartile } = params;
+
+    const allowedQuartiles: Quartile[] = ["Q1", "Q2", "Q3", "Q4"];
+    if (quartile && allowedQuartiles.includes(quartile as Quartile)) {
+      conditions.push(eq(publication.quartile, quartile as Quartile));
+    }
 
     if (search && search.trim()) {
       const term = `%${search.trim()}%`;

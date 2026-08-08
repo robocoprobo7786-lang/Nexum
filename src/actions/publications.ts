@@ -1,7 +1,8 @@
 "use server";
 
 import { db } from "@/db";
-import { publication } from "@/db/schema";
+import { publication, publicationType } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import {
   step1PublicationSchema,
   type Step1PublicationInput,
@@ -32,8 +33,16 @@ export async function createPublicationStep1(
       };
     }
 
-    const { title, publicationTypeId, journalOrConference, year, doiOrReference } =
+    const { title, publicationTypeId, journalOrConference, year, doiOrReference, quartile } =
       parseResult.data;
+
+    const [typeRow] = await db
+      .select({ name: publicationType.name })
+      .from(publicationType)
+      .where(eq(publicationType.id, publicationTypeId));
+
+    const isJournal = typeRow?.name === "Journal";
+    const finalQuartile = isJournal ? (quartile || null) : null;
 
     const [inserted] = await db
       .insert(publication)
@@ -43,6 +52,7 @@ export async function createPublicationStep1(
         journalOrConference: journalOrConference || null,
         year,
         doiOrReference: doiOrReference || null,
+        quartile: finalQuartile,
       })
       .returning({ id: publication.id });
 
@@ -69,7 +79,6 @@ export async function createPublicationStep1(
 import { step2PublicationAuthorsSchema, type Step2PublicationAuthorsInput } from "@/lib/validations/publication";
 import { publicationAuthor } from "@/db/schema/publicationAuthor";
 import { externalAuthor } from "@/db/schema/externalAuthor";
-import { eq } from "drizzle-orm";
 
 export async function savePublicationAuthors(
   rawInput: Step2PublicationAuthorsInput
@@ -235,8 +244,16 @@ export async function updatePublicationStep1(
       };
     }
 
-    const { title, publicationTypeId, journalOrConference, year, doiOrReference } =
+    const { title, publicationTypeId, journalOrConference, year, doiOrReference, quartile } =
       parseResult.data;
+
+    const [typeRow] = await db
+      .select({ name: publicationType.name })
+      .from(publicationType)
+      .where(eq(publicationType.id, publicationTypeId));
+
+    const isJournal = typeRow?.name === "Journal";
+    const finalQuartile = isJournal ? (quartile || null) : null;
 
     const [updated] = await db
       .update(publication)
@@ -246,6 +263,7 @@ export async function updatePublicationStep1(
         journalOrConference: journalOrConference || null,
         year,
         doiOrReference: doiOrReference || null,
+        quartile: finalQuartile,
       })
       .where(eq(publication.id, id))
       .returning({ id: publication.id });

@@ -140,9 +140,16 @@ export function PublicationsTable({
 
                 {/* Type */}
                 <TableCell className="py-3.5">
-                  <span className="inline-flex items-center text-xs font-medium text-muted-foreground px-2 py-0.5 rounded-control bg-muted border border-border">
-                    {pub.publicationType?.name ?? "Unspecified"}
-                  </span>
+                  <div className="flex flex-col gap-1 items-start">
+                    <span className="inline-flex items-center text-xs font-medium text-muted-foreground px-2 py-0.5 rounded-control bg-muted border border-border">
+                      {pub.publicationType?.name ?? "Unspecified"}
+                    </span>
+                    {pub.quartile && pub.publicationType?.name === "Journal" && (
+                      <span className="inline-flex items-center text-[10px] font-bold text-primary bg-primary/10 border border-primary/20 rounded-md px-1.5 py-0.5">
+                        {pub.quartile}
+                      </span>
+                    )}
+                  </div>
                 </TableCell>
 
                 {/* Authors */}

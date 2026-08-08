@@ -23,6 +23,7 @@ interface PageProps {
     status?: string;
     sort?: string;
     page?: string;
+    quartile?: string;
   }>;
 }
 
@@ -36,6 +37,7 @@ async function PublicationsContent({ searchParams }: PageProps) {
   const status = params.status as "verified" | "pending" | "missing" | undefined;
   const sort = params.sort || "year-desc";
   const page = params.page ? parseInt(params.page, 10) : 1;
+  const quartile = params.quartile as "Q1" | "Q2" | "Q3" | "Q4" | "all" | undefined;
 
   let sortBy: "year" | "title" = "year";
   let sortOrder: "asc" | "desc" = "desc";
@@ -61,6 +63,7 @@ async function PublicationsContent({ searchParams }: PageProps) {
     sortOrder,
     page,
     pageSize: 10,
+    quartile,
   };
 
   const [options, result] = await Promise.all([
@@ -87,6 +90,9 @@ async function PublicationsContent({ searchParams }: PageProps) {
   }
   if (status) {
     activeFilterLabels.push(`Status: ${status}`);
+  }
+  if (quartile && quartile !== "all") {
+    activeFilterLabels.push(`Quartile: ${quartile}`);
   }
 
   return (

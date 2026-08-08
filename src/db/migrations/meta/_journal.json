@@ -8,6 +8,13 @@
       "when": 1786170221029,
       "tag": "0000_vengeful_junta",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1786186296634,
+      "tag": "0001_strong_hedge_knight",
+      "breakpoints": true
     }
   ]
 }

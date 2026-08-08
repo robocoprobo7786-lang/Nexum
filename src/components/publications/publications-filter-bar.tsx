@@ -35,6 +35,7 @@ export function PublicationsFilterBar({
   const currentYear = searchParams.get("year") || "";
   const currentStatus = searchParams.get("status") || "";
   const currentSort = searchParams.get("sort") || "year-desc";
+  const currentQuartile = searchParams.get("quartile") || "";
 
   const [searchTerm, setSearchTerm] = useState(currentSearch);
 
@@ -80,6 +81,7 @@ export function PublicationsFilterBar({
     !!currentType ||
     !!currentYear ||
     !!currentStatus ||
+    !!currentQuartile ||
     (currentSort !== "year-desc" && currentSort !== "");
 
   return (
@@ -110,7 +112,7 @@ export function PublicationsFilterBar({
         </form>
 
         {/* Filter Dropdowns Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 flex-wrap">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 flex-wrap">
           {/* Department Filter */}
           <Select
             value={currentDept || "all"}
@@ -178,6 +180,23 @@ export function PublicationsFilterBar({
               <SelectItem value="verified">Verified</SelectItem>
               <SelectItem value="pending">Pending</SelectItem>
               <SelectItem value="missing">Missing</SelectItem>
+            </SelectContent>
+          </Select>
+
+          {/* Quartile Filter */}
+          <Select
+            value={currentQuartile || "all"}
+            onValueChange={(val: string | null) => updateFilters({ quartile: val })}
+          >
+            <SelectTrigger className="text-xs h-9">
+              <SelectValue placeholder="Quartile" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Quartiles</SelectItem>
+              <SelectItem value="Q1">Q1</SelectItem>
+              <SelectItem value="Q2">Q2</SelectItem>
+              <SelectItem value="Q3">Q3</SelectItem>
+              <SelectItem value="Q4">Q4</SelectItem>
             </SelectContent>
           </Select>
         </div>

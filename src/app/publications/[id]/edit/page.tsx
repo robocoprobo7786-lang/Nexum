@@ -30,6 +30,7 @@ export default async function EditPublicationPage({
     journalOrConference: publication.journalOrConference || "",
     year: publication.year,
     doiOrReference: publication.doiOrReference || "",
+    quartile: (publication.quartile || "") as "Q1" | "Q2" | "Q3" | "Q4" | "",
   };
 
   return (

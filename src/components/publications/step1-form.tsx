@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -53,8 +53,19 @@ export function Step1Form({ publicationTypes, initialData }: Step1FormProps) {
       journalOrConference: initialData?.journalOrConference || "",
       year: initialData?.year || currentYear,
       doiOrReference: initialData?.doiOrReference || "",
+      quartile: initialData?.quartile || "",
     },
   });
+
+  const publicationTypeId = form.watch("publicationTypeId");
+  const selectedType = publicationTypes.find((t) => t.id === publicationTypeId);
+  const isJournal = selectedType?.name === "Journal";
+
+  useEffect(() => {
+    if (!isJournal) {
+      form.setValue("quartile", "");
+    }
+  }, [isJournal, form]);
 
   async function onSubmit(data: Step1PublicationInput) {
     setIsSubmitting(true);
@@ -207,6 +218,39 @@ export function Step1Form({ publicationTypes, initialData }: Step1FormProps) {
               )}
             />
           </div>
+
+          {/* Quartile Select (Only for Journals) */}
+          {isJournal && (
+            <FormField
+              control={form.control}
+              name="quartile"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold text-foreground">
+                    Journal Quartile
+                  </FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select Quartile..." />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="">Select Quartile...</SelectItem>
+                      <SelectItem value="Q1">Q1</SelectItem>
+                      <SelectItem value="Q2">Q2</SelectItem>
+                      <SelectItem value="Q3">Q3</SelectItem>
+                      <SelectItem value="Q4">Q4</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
 
           {/* Journal or Conference */}
           <FormField

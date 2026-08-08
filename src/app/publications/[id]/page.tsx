@@ -71,6 +71,16 @@ export default async function PublicationDetailPage({
                 <Badge variant="secondary">{publication.publicationType?.name || "N/A"}</Badge>
               </span>
             </div>
+            {publication.quartile && publication.publicationType?.name === "Journal" && (
+              <div className="grid grid-cols-3 gap-2 py-1 border-b border-border/50">
+                <span className="text-muted-foreground">Journal Quartile</span>
+                <span className="col-span-2 font-medium">
+                  <Badge variant="secondary" className="bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20">
+                    {publication.quartile}
+                  </Badge>
+                </span>
+              </div>
+            )}
             <div className="grid grid-cols-3 gap-2 py-1 border-b border-border/50">
               <span className="text-muted-foreground">Journal / Conference</span>
               <span className="col-span-2 font-medium">{publication.journalOrConference || "N/A"}</span>
