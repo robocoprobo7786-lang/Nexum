@@ -1,6 +1,6 @@
 # Nexum — Institutional Research Portfolio & Accreditation Readiness System
 
-Nexum is an institutional research activity and accreditation readiness tracking system built for higher education institutions, research labs, and academic departments. It enables continuous tracking of faculty publications, co-author management (internal faculty vs. external collaborators), evidence attachment, and institutional reporting.
+Nexum is an institutional research activity and accreditation readiness tracking system built for higher education institutions, research labs, and academic departments. It enables continuous tracking of faculty publications, co-author management (internal faculty vs. external collaborators), evidence attachment, and institutional reporting..
 
 ---
 
